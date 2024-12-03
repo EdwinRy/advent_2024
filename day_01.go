@@ -39,7 +39,7 @@ func read2ColsNumbers(input string) ([]int, []int, error) {
 	return list1, list2, nil
 }
 
-func task1() {
+func day_01_task1() {
 	input, err := utils.ReadFile("inputs/day_01/input_1.txt")
 	if err != nil {
 		fmt.Println(err)
@@ -59,7 +59,7 @@ func task1() {
 
 	distances := make([]int, listLen)
 	for i := 0; i < listLen; i++ {
-		distances[i] = utils.AbsInt(list1[i], list2[i])
+		distances[i] = utils.AbsDiffInt(list1[i], list2[i])
 	}
 
 	totalDistance := utils.SliceSumInt(distances)
@@ -67,7 +67,7 @@ func task1() {
 	utils.WriteStringToFile("solutions/day_01/task_1.txt", strconv.Itoa(totalDistance))
 }
 
-func task2() {
+func day_01_task2() {
 	input, err := utils.ReadFile("inputs/day_01/input_2.txt")
 	if err != nil {
 		fmt.Println(err)
@@ -103,6 +103,6 @@ func task2() {
 }
 
 func Day_01() {
-	task1()
-	task2()
+	day_01_task1()
+	day_01_task2()
 }

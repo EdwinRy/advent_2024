@@ -4,6 +4,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func ReadFile(path string) (string, error) {
@@ -18,7 +19,8 @@ func ReadFile(path string) (string, error) {
 		return "", err
 	}
 
-	return string(fileBuf), nil
+	outStr := strings.Trim(string(fileBuf), "\n")
+	return outStr, nil
 }
 
 func WriteStringToFile(path string, content string) error {
@@ -36,7 +38,7 @@ func WriteStringToFile(path string, content string) error {
 	return nil
 }
 
-func AbsInt(x int, y int) int {
+func AbsDiffInt(x int, y int) int {
 	if x < y {
 		return y - x
 	}
@@ -49,4 +51,11 @@ func SliceSumInt(slice []int) int {
 		sum += val
 	}
 	return sum
+}
+
+func SliceRemove(slice []int, index int) []int {
+	copiedSlice := make([]int, 0, len(slice)-1)
+	copiedSlice = append(copiedSlice, slice[:index]...)
+	copiedSlice = append(copiedSlice, slice[index+1:]...)
+	return copiedSlice
 }
