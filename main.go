@@ -9,6 +9,7 @@ import (
 var excercises = []func(){
 	Day_01,
 	Day_02,
+	Day_03,
 }
 
 func main() {
