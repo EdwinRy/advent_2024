@@ -1,11 +1,12 @@
-package main
+package day01
 
 import (
-	"advent_2024_go/utils"
 	"fmt"
 	"slices"
 	"strconv"
 	"strings"
+
+	"github.com/EdwinRy/advent-2024/internal/utils"
 )
 
 func read2ColsNumbers(input string) ([]int, []int, error) {
@@ -39,7 +40,7 @@ func read2ColsNumbers(input string) ([]int, []int, error) {
 	return list1, list2, nil
 }
 
-func day_01_task1() {
+func task1() {
 	input, err := utils.ReadFile("inputs/day_01/input_1.txt")
 	if err != nil {
 		fmt.Println(err)
@@ -67,7 +68,7 @@ func day_01_task1() {
 	utils.WriteStringToFile("solutions/day_01/task_1.txt", strconv.Itoa(totalDistance))
 }
 
-func day_01_task2() {
+func task2() {
 	input, err := utils.ReadFile("inputs/day_01/input_2.txt")
 	if err != nil {
 		fmt.Println(err)
@@ -102,7 +103,7 @@ func day_01_task2() {
 	utils.WriteStringToFile("solutions/day_01/task_2.txt", strconv.Itoa(totalDistance))
 }
 
-func Day_01() {
-	day_01_task1()
-	day_01_task2()
+func Day01() {
+	task1()
+	task2()
 }

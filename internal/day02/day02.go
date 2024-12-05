@@ -1,10 +1,11 @@
-package main
+package day02
 
 import (
-	"advent_2024_go/utils"
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/EdwinRy/advent-2024/internal/utils"
 )
 
 func read2dNumArray(input string) ([][]int, error) {
@@ -55,7 +56,7 @@ func isRowChangingSafely(row []int) (bool, int) {
 	return true, 0
 }
 
-func day_02_task1() {
+func task1() {
 	input, _ := utils.ReadFile("inputs/day_02/input_1.txt")
 	rows, _ := read2dNumArray(input)
 
@@ -69,7 +70,7 @@ func day_02_task1() {
 	fmt.Println("Day 02, Task 1: ", safeRows)
 }
 
-func day_02_task2() {
+func task2() {
 	input, _ := utils.ReadFile("inputs/day_02/input_2.txt")
 	rows, _ := read2dNumArray(input)
 
@@ -101,7 +102,7 @@ func day_02_task2() {
 
 }
 
-func Day_02() {
-	day_02_task1()
-	day_02_task2()
+func Day02() {
+	task1()
+	task2()
 }

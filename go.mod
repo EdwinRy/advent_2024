@@ -1,3 +1,3 @@
-module advent_2024_go
+module github.com/EdwinRy/advent-2024
 
 go 1.23.2

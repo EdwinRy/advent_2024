@@ -1,14 +1,15 @@
-package main
+package day03
 
 import (
-	"advent_2024_go/utils"
 	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/EdwinRy/advent-2024/internal/utils"
 )
 
-func day_03_task1() {
+func task1() {
 	input, _ := utils.ReadFile("inputs/day_03/input_1.txt")
 	r := regexp.MustCompile(`mul\(\d+\,\d+\)`)
 	matches := r.FindAllString(input, -1)
@@ -25,7 +26,7 @@ func day_03_task1() {
 	fmt.Println("Day 03 task 1: ", total)
 }
 
-func day_03_task2() {
+func task2() {
 	input, _ := utils.ReadFile("inputs/day_03/input_1.txt")
 	reg_mul := `mul\(\d+\,\d+\)`
 	reg_dont := `don\'t\(\)`
@@ -52,7 +53,7 @@ func day_03_task2() {
 	fmt.Println("Day 03 task 2: ", total)
 }
 
-func Day_03() {
-	day_03_task1()
-	day_03_task2()
+func Day03() {
+	task1()
+	task2()
 }
