@@ -59,3 +59,12 @@ func SliceRemove(slice []int, index int) []int {
 	copiedSlice = append(copiedSlice, slice[index+1:]...)
 	return copiedSlice
 }
+
+func SliceContainsInt(slice []int, val int) bool {
+	for _, sliceVal := range slice {
+		if sliceVal == val {
+			return true
+		}
+	}
+	return false
+}
