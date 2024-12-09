@@ -56,8 +56,7 @@ func isRowChangingSafely(row []int) (bool, int) {
 	return true, 0
 }
 
-func task1() {
-	input, _ := utils.ReadFile("inputs/day_02/input_1.txt")
+func task1(input string) (int, error) {
 	rows, _ := read2dNumArray(input)
 
 	safeRows := 0
@@ -67,11 +66,10 @@ func task1() {
 			safeRows++
 		}
 	}
-	fmt.Println("Day 02, Task 1: ", safeRows)
+	return safeRows, nil
 }
 
-func task2() {
-	input, _ := utils.ReadFile("inputs/day_02/input_2.txt")
+func task2(input string) (int, error) {
 	rows, _ := read2dNumArray(input)
 
 	safeRows := 0
@@ -98,11 +96,13 @@ func task2() {
 			continue
 		}
 	}
-	fmt.Println("Day 02, Task 2: ", safeRows)
-
+	return safeRows, nil
 }
 
 func Day02() {
-	task1()
-	task2()
+	input, _ := utils.ReadFile("inputs/day02/input.txt")
+	task1Result, _ := task1(input)
+	fmt.Println("Day 02 task 1: ", task1Result)
+	task2Result, _ := task2(input)
+	fmt.Println("Day 02 task 2: ", task2Result)
 }

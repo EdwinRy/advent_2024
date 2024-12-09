@@ -68,3 +68,13 @@ func SliceContainsInt(slice []int, val int) bool {
 	}
 	return false
 }
+
+func ReadAsRowsOfChars(input string) [][]string {
+	lines := strings.Split(input, "\n")
+	charsLines := make([][]string, 0)
+	for _, line := range lines {
+		lineChars := strings.Split(line, "")
+		charsLines = append(charsLines, lineChars)
+	}
+	return charsLines
+}

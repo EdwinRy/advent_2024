@@ -2,7 +2,6 @@ package day04
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/EdwinRy/advent-2024/internal/utils"
 )
@@ -21,27 +20,6 @@ const (
 )
 
 var directions = []direction{up, down, left, right, diagonalUpRight, diagonalUpLeft, diagonalDownRight, diagonalDownLeft}
-
-func readInputCharRows() [][]string {
-	// 	input := `MMMSXXMASM
-	// MSAMXMSMSA
-	// AMXSXMAAMM
-	// MSAMASMSMX
-	// XMASAMXAMM
-	// XXAMMXXAMA
-	// SMSMSASXSS
-	// SAXAMASAAA
-	// MAMMMXMMMM
-	// MXMXAXMASX`
-	input, _ := utils.ReadFile("inputs/day_04/input_1.txt")
-	lines := strings.Split(input, "\n")
-	charsLines := make([][]string, 0)
-	for _, line := range lines {
-		lineChars := strings.Split(line, "")
-		charsLines = append(charsLines, lineChars)
-	}
-	return charsLines
-}
 
 func checkWordInDirection(lines *[][]string, word string, wordIdx int, dir direction, currI int, currJ int) bool {
 
@@ -103,8 +81,8 @@ func checkWordInDirection(lines *[][]string, word string, wordIdx int, dir direc
 	return false
 }
 
-func task1() {
-	lines := readInputCharRows()
+func task1(input string) (int, error) {
+	lines := utils.ReadAsRowsOfChars(input)
 	word := "XMAS"
 	total := 0
 	for i, _ := range lines {
@@ -117,7 +95,7 @@ func task1() {
 
 		}
 	}
-	fmt.Println("Day 04 task 1: ", total)
+	return total, nil
 }
 
 func findIfQuadsOverlap(xQuad [][]string, yQuad [][]string, ignoreChar string) bool {
@@ -159,7 +137,7 @@ func quadFromLines(lines [][]string, lineI int, lineJ int, quadSize int) [][]str
 	return quad
 }
 
-func task2() {
+func task2(input string) (int, error) {
 	quad := [][]string{
 		{"M", ".", "M"},
 		{".", "A", "."},
@@ -172,7 +150,7 @@ func task2() {
 		quads[i] = rotate2dArrayClockwise(quads[i-1])
 	}
 
-	lines := readInputCharRows()
+	lines := utils.ReadAsRowsOfChars(input)
 	total := 0
 	for i := 0; i < len(lines)-len(quad)+1; i++ {
 		for j := 0; j < len(lines[0])-len(quad[0])+1; j++ {
@@ -186,9 +164,13 @@ func task2() {
 		}
 	}
 	fmt.Println("Day 04 task 2: ", total)
+	return total, nil
 }
 
 func Day04() {
-	task1()
-	task2()
+	input, _ := utils.ReadFile("inputs/day04/input.txt")
+	task1Result, _ := task1(input)
+	fmt.Println("Day 04 task 1: ", task1Result)
+	task2Result, _ := task2(input)
+	fmt.Println("Day 04 task 2: ", task2Result)
 }

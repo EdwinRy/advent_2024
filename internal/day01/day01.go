@@ -40,17 +40,11 @@ func read2ColsNumbers(input string) ([]int, []int, error) {
 	return list1, list2, nil
 }
 
-func task1() {
-	input, err := utils.ReadFile("inputs/day_01/input_1.txt")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
+func task1(input string) (int, error) {
 	list1, list2, err := read2ColsNumbers(input)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return 0, err
 	}
 
 	slices.Sort(list1)
@@ -64,22 +58,14 @@ func task1() {
 	}
 
 	totalDistance := utils.SliceSumInt(distances)
-	fmt.Println("Day 1 Task 1: ", totalDistance)
-	utils.WriteStringToFile("solutions/day_01/task_1.txt", strconv.Itoa(totalDistance))
+	return totalDistance, nil
 }
 
-func task2() {
-	input, err := utils.ReadFile("inputs/day_01/input_2.txt")
-	if err != nil {
-		fmt.Println(err)
-
-		return
-	}
-
+func task2(input string) (int, error) {
 	list1, list2, err := read2ColsNumbers(input)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return 0, err
 	}
 	listLen := len(list1)
 
@@ -99,11 +85,13 @@ func task2() {
 	}
 
 	totalDistance := utils.SliceSumInt(distances)
-	fmt.Println("Day 1 Task 2: ", totalDistance)
-	utils.WriteStringToFile("solutions/day_01/task_2.txt", strconv.Itoa(totalDistance))
+	return totalDistance, nil
 }
 
 func Day01() {
-	task1()
-	task2()
+	input, _ := utils.ReadFile("inputs/day01/input.txt")
+	task1Result, _ := task1(input)
+	fmt.Println("Day 01 task 1: ", task1Result)
+	task2Result, _ := task2(input)
+	fmt.Println("Day 01 Task 2: ", task2Result)
 }

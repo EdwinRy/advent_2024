@@ -9,8 +9,7 @@ import (
 	"github.com/EdwinRy/advent-2024/internal/utils"
 )
 
-func task1() {
-	input, _ := utils.ReadFile("inputs/day_03/input_1.txt")
+func task1(input string) (int, error) {
 	r := regexp.MustCompile(`mul\(\d+\,\d+\)`)
 	matches := r.FindAllString(input, -1)
 
@@ -23,11 +22,10 @@ func task1() {
 		total += num1 * num2
 	}
 
-	fmt.Println("Day 03 task 1: ", total)
+	return total, nil
 }
 
-func task2() {
-	input, _ := utils.ReadFile("inputs/day_03/input_1.txt")
+func task2(input string) (int, error) {
 	reg_mul := `mul\(\d+\,\d+\)`
 	reg_dont := `don\'t\(\)`
 	reg_do := `do\(\)`
@@ -50,10 +48,13 @@ func task2() {
 			}
 		}
 	}
-	fmt.Println("Day 03 task 2: ", total)
+	return total, nil
 }
 
 func Day03() {
-	task1()
-	task2()
+	input, _ := utils.ReadFile("inputs/day03/input.txt")
+	task1Result, _ := task1(input)
+	fmt.Println("Day 03 task 1: ", task1Result)
+	task2Result, _ := task2(input)
+	fmt.Println("Day 03 task 2: ", task2Result)
 }
