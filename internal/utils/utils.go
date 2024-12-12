@@ -60,7 +60,7 @@ func SliceRemove(slice []int, index int) []int {
 	return copiedSlice
 }
 
-func SliceContainsInt(slice []int, val int) bool {
+func SliceContains[T comparable](slice []T, val T) bool {
 	for _, sliceVal := range slice {
 		if sliceVal == val {
 			return true

@@ -5,6 +5,8 @@ import (
 	"math/big"
 	"strconv"
 	"strings"
+	"sync"
+	"sync/atomic"
 
 	"github.com/EdwinRy/advent-2024/internal/utils"
 )
@@ -75,20 +77,19 @@ func checkCanBeMadeWithParts1(row Row) bool {
 func task1(input string) (int, error) {
 	rows := inputToRows(input)
 
-	validTotals := make([]int, 0)
+	var total atomic.Uint64
+	wg := sync.WaitGroup{}
 	for _, row := range rows {
-		if checkCanBeMadeWithParts1(row) {
-			validTotals = append(validTotals, row.total)
-			println(row.total)
-		}
+		wg.Add(1)
+		go func(row Row) {
+			defer wg.Done()
+			if checkCanBeMadeWithParts1(row) {
+				total.Add(uint64(row.total))
+			}
+		}(row)
 	}
-
-	total := 0
-	for _, validTotal := range validTotals {
-		total += validTotal
-	}
-
-	return total, nil
+	wg.Wait()
+	return int(total.Load()), nil
 }
 func bigIntToSetLenTernaryStr(num big.Int, setLen int) string {
 	binaryStr := num.Text(3)
@@ -135,20 +136,20 @@ func checkCanBeMadeWithParts2(row Row) bool {
 func task2(input string) (int, error) {
 	rows := inputToRows(input)
 
-	validTotals := make([]int, 0)
+	var total atomic.Uint64
+	wg := sync.WaitGroup{}
 	for _, row := range rows {
-		if checkCanBeMadeWithParts2(row) {
-			validTotals = append(validTotals, row.total)
-			// println(row.total)
-		}
+		wg.Add(1)
+		go func(row Row) {
+			defer wg.Done()
+			if checkCanBeMadeWithParts2(row) {
+				total.Add(uint64(row.total))
+			}
+		}(row)
 	}
+	wg.Wait()
 
-	total := 0
-	for _, validTotal := range validTotals {
-		total += validTotal
-	}
-
-	return total, nil
+	return int(total.Load()), nil
 }
 
 func Day07() {
