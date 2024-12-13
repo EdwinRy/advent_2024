@@ -188,9 +188,6 @@ func task1(input string) (int, error) {
 	for !circularError && !finished && maxRuns > 0 {
 		maxRuns--
 		finished, circularError = step(&mapInfo)
-		// for _, row := range mapInfo.obstacleMap {
-		// 	fmt.Println(row)
-		// }
 	}
 
 	if maxRuns == 0 {
@@ -232,9 +229,6 @@ func checkMapResultsInCircularError(mapInfo *MapInfo) bool {
 	for !circularError && !finished && maxRuns > 0 {
 		maxRuns--
 		finished, circularError = step(mapInfo)
-		// for _, row := range mapInfo.obstacleMap {
-		// 	fmt.Println(row)
-		// }
 	}
 
 	if maxRuns == 0 {

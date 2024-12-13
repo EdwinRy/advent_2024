@@ -13,6 +13,7 @@ import (
 	"github.com/EdwinRy/advent-2024/internal/day06"
 	"github.com/EdwinRy/advent-2024/internal/day07"
 	"github.com/EdwinRy/advent-2024/internal/day08"
+	"github.com/EdwinRy/advent-2024/internal/day09"
 )
 
 var excercises = []func(){
@@ -24,6 +25,7 @@ var excercises = []func(){
 	day06.Day06,
 	day07.Day07,
 	day08.Day08,
+	day09.Day09,
 }
 
 func main() {

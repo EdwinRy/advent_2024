@@ -60,6 +60,13 @@ func SliceRemove(slice []int, index int) []int {
 	return copiedSlice
 }
 
+func SliceInsert[T any](slice []T, index int, val T) []T {
+	slice = append(slice, val)
+	copy(slice[index+1:], slice[index:])
+	slice[index] = val
+	return slice
+}
+
 func SliceContains[T comparable](slice []T, val T) bool {
 	for _, sliceVal := range slice {
 		if sliceVal == val {
