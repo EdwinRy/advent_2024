@@ -185,7 +185,7 @@ func task2(input string) (int, error) {
 }
 
 func Day09() {
-	input, _ := utils.ReadFile("inputs/day09/input.txt")
+	input, _ := utils.ReadFile("inputs/day09.txt")
 	task1Result, _ := task1(input)
 	fmt.Println("Day 09 task 1: ", task1Result)
 	task2Result, _ := task2(input)

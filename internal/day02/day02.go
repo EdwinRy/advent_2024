@@ -49,7 +49,7 @@ func isRowChangingSafely(row []int) (bool, int) {
 			return false, i
 		}
 
-		if utils.AbsDiffInt(n1, n2) > 3 {
+		if utils.AbsDiffNum(n1, n2) > 3 {
 			return false, i
 		}
 	}
@@ -100,7 +100,7 @@ func task2(input string) (int, error) {
 }
 
 func Day02() {
-	input, _ := utils.ReadFile("inputs/day02/input.txt")
+	input, _ := utils.ReadFile("inputs/day02.txt")
 	task1Result, _ := task1(input)
 	fmt.Println("Day 02 task 1: ", task1Result)
 	task2Result, _ := task2(input)

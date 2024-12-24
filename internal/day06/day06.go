@@ -8,69 +8,55 @@ import (
 	"github.com/EdwinRy/advent-2024/internal/utils"
 )
 
-type Vec2d struct {
-	x, y int
-}
-
-type Direction int
-
-const (
-	Up Direction = iota
-	Down
-	Left
-	Right
-)
-
-type Position struct {
-	location  Vec2d
-	direction Direction
-}
+type point2d = utils.Point2d
+type position = utils.Position
+type direction = utils.Direction
 
 type MapInfo struct {
 	obstacleMap   [][]string
-	guardPosition Position
+	guardPosition position
 	obstacle      string
 	free          string
-	pastPositions map[Position]bool
-	pastLocations map[Vec2d]bool
+	pastPositions map[position]bool
+	pastLocations map[point2d]bool
 }
 
-func findGuard(obstacleMap [][]string) (Position, error) {
+func findGuard(obstacleMap [][]string) (position, error) {
 	for y, row := range obstacleMap {
 		for x, cell := range row {
 			switch cell {
 			case `^`:
-				return Position{location: Vec2d{x, y}, direction: Up}, nil
+				return position{Location: point2d{X: x, Y: y}, Direction: utils.Up}, nil
 			case `v`:
-				return Position{location: Vec2d{x, y}, direction: Down}, nil
+				return position{Location: point2d{X: x, Y: y}, Direction: utils.Down}, nil
 			case `<`:
-				return Position{location: Vec2d{x, y}, direction: Left}, nil
+				return position{Location: point2d{X: x, Y: y}, Direction: utils.Left}, nil
 			case `>`:
-				return Position{location: Vec2d{x, y}, direction: Right}, nil
+				return position{Location: point2d{X: x, Y: y}, Direction: utils.Right}, nil
 			}
 		}
 	}
-	return Position{}, fmt.Errorf("guard not found")
+	return position{}, fmt.Errorf("guard not found")
 
 }
 
 func checkOutOfBounds(mapInfo MapInfo) bool {
 	currentPos := mapInfo.guardPosition
-	switch currentPos.direction {
-	case Up:
-		if currentPos.location.y == 0 {
+	switch currentPos.Direction {
+	case utils.Up:
+		if currentPos.Location.Y == 0 {
 			return true
 		}
-	case Down:
-		if currentPos.location.y == len(mapInfo.obstacleMap)-1 {
+	case utils.Down:
+		if currentPos.Location.Y == len(mapInfo.obstacleMap)-1 {
 			return true
 		}
-	case Left:
-		if currentPos.location.x == 0 {
+	case utils.Left:
+		if currentPos.Location.X == 0 {
 			return true
 		}
-	case Right:
-		if currentPos.location.x == len(mapInfo.obstacleMap[0])-1 {
+	case utils.Right:
+		if currentPos.Location.X == len(mapInfo.obstacleMap[0])-1 {
 			return true
 		}
 	}
@@ -79,21 +65,21 @@ func checkOutOfBounds(mapInfo MapInfo) bool {
 
 func checkInFrontOfObstacle(mapInfo MapInfo) bool {
 	currentPos := mapInfo.guardPosition
-	switch currentPos.direction {
-	case Up:
-		if mapInfo.obstacleMap[currentPos.location.y-1][currentPos.location.x] == mapInfo.obstacle {
+	switch currentPos.Direction {
+	case utils.Up:
+		if mapInfo.obstacleMap[currentPos.Location.Y-1][currentPos.Location.X] == mapInfo.obstacle {
 			return true
 		}
-	case Down:
-		if mapInfo.obstacleMap[currentPos.location.y+1][currentPos.location.x] == mapInfo.obstacle {
+	case utils.Down:
+		if mapInfo.obstacleMap[currentPos.Location.Y+1][currentPos.Location.X] == mapInfo.obstacle {
 			return true
 		}
-	case Left:
-		if mapInfo.obstacleMap[currentPos.location.y][currentPos.location.x-1] == mapInfo.obstacle {
+	case utils.Left:
+		if mapInfo.obstacleMap[currentPos.Location.Y][currentPos.Location.X-1] == mapInfo.obstacle {
 			return true
 		}
-	case Right:
-		if mapInfo.obstacleMap[currentPos.location.y][currentPos.location.x+1] == mapInfo.obstacle {
+	case utils.Right:
+		if mapInfo.obstacleMap[currentPos.Location.Y][currentPos.Location.X+1] == mapInfo.obstacle {
 			return true
 		}
 	}
@@ -102,15 +88,15 @@ func checkInFrontOfObstacle(mapInfo MapInfo) bool {
 
 func turnRight(mapInfo *MapInfo) {
 	currentPos := mapInfo.guardPosition
-	switch currentPos.direction {
-	case Up:
-		mapInfo.guardPosition.direction = Right
-	case Down:
-		mapInfo.guardPosition.direction = Left
-	case Left:
-		mapInfo.guardPosition.direction = Up
-	case Right:
-		mapInfo.guardPosition.direction = Down
+	switch currentPos.Direction {
+	case utils.Up:
+		mapInfo.guardPosition.Direction = utils.Right
+	case utils.Down:
+		mapInfo.guardPosition.Direction = utils.Left
+	case utils.Left:
+		mapInfo.guardPosition.Direction = utils.Up
+	case utils.Right:
+		mapInfo.guardPosition.Direction = utils.Down
 	}
 }
 
@@ -122,9 +108,9 @@ func checkRepeatingPosition(mapInfo MapInfo) bool {
 }
 
 func savePosition(mapInfo *MapInfo) {
-	mapInfo.pastLocations[mapInfo.guardPosition.location] = true
+	mapInfo.pastLocations[mapInfo.guardPosition.Location] = true
 	mapInfo.pastPositions[mapInfo.guardPosition] = true
-	mapInfo.obstacleMap[mapInfo.guardPosition.location.y][mapInfo.guardPosition.location.x] = `^`
+	mapInfo.obstacleMap[mapInfo.guardPosition.Location.Y][mapInfo.guardPosition.Location.X] = `^`
 }
 
 func step(mapInfo *MapInfo) (isFinished bool, circularError bool) {
@@ -148,18 +134,18 @@ func step(mapInfo *MapInfo) (isFinished bool, circularError bool) {
 	}
 
 	// erase previous position
-	mapInfo.obstacleMap[mapInfo.guardPosition.location.y][mapInfo.guardPosition.location.x] = `.`
+	mapInfo.obstacleMap[mapInfo.guardPosition.Location.Y][mapInfo.guardPosition.Location.X] = `.`
 
 	// take step in valid direction
-	switch mapInfo.guardPosition.direction {
-	case Up:
-		mapInfo.guardPosition.location.y--
-	case Down:
-		mapInfo.guardPosition.location.y++
-	case Left:
-		mapInfo.guardPosition.location.x--
-	case Right:
-		mapInfo.guardPosition.location.x++
+	switch mapInfo.guardPosition.Direction {
+	case utils.Up:
+		mapInfo.guardPosition.Location.Y--
+	case utils.Down:
+		mapInfo.guardPosition.Location.Y++
+	case utils.Left:
+		mapInfo.guardPosition.Location.X--
+	case utils.Right:
+		mapInfo.guardPosition.Location.X++
 	}
 
 	savePosition(mapInfo)
@@ -175,12 +161,12 @@ func task1(input string) (int, error) {
 		free:          `.`,
 		obstacleMap:   obstacleMap,
 		guardPosition: guardPosition,
-		pastPositions: make(map[Position]bool),
-		pastLocations: make(map[Vec2d]bool),
+		pastPositions: make(map[position]bool),
+		pastLocations: make(map[point2d]bool),
 	}
 
 	mapInfo.pastPositions[mapInfo.guardPosition] = true
-	mapInfo.pastLocations[mapInfo.guardPosition.location] = true
+	mapInfo.pastLocations[mapInfo.guardPosition.Location] = true
 
 	circularError := false
 	finished := false
@@ -199,7 +185,7 @@ func task1(input string) (int, error) {
 	return individualPositions, nil
 }
 
-func createMapInfoWithNewObstacle(obstacleMap [][]string, guardPosition Position, obstacleLocation Vec2d) MapInfo {
+func createMapInfoWithNewObstacle(obstacleMap [][]string, guardPosition position, obstacleLocation point2d) MapInfo {
 
 	newObstacleMap := make([][]string, len(obstacleMap))
 	for i, row := range obstacleMap {
@@ -212,13 +198,13 @@ func createMapInfoWithNewObstacle(obstacleMap [][]string, guardPosition Position
 		free:          `.`,
 		obstacleMap:   newObstacleMap,
 		guardPosition: guardPosition,
-		pastPositions: make(map[Position]bool),
-		pastLocations: make(map[Vec2d]bool),
+		pastPositions: make(map[position]bool),
+		pastLocations: make(map[point2d]bool),
 	}
 
-	mapInfo.obstacleMap[obstacleLocation.y][obstacleLocation.x] = mapInfo.obstacle
+	mapInfo.obstacleMap[obstacleLocation.Y][obstacleLocation.X] = mapInfo.obstacle
 	mapInfo.pastPositions[mapInfo.guardPosition] = true
-	mapInfo.pastLocations[mapInfo.guardPosition.location] = true
+	mapInfo.pastLocations[mapInfo.guardPosition.Location] = true
 	return mapInfo
 }
 
@@ -256,7 +242,7 @@ func task2(input string) (int, error) {
 				continue
 			}
 
-			newMap := createMapInfoWithNewObstacle(obstacleMap, guardPosition, Vec2d{x, y})
+			newMap := createMapInfoWithNewObstacle(obstacleMap, guardPosition, point2d{X: x, Y: y})
 			allMaps = append(allMaps, newMap)
 		}
 	}
@@ -279,7 +265,7 @@ func task2(input string) (int, error) {
 }
 
 func Day06() {
-	input, _ := utils.ReadFile("inputs/day06/input.txt")
+	input, _ := utils.ReadFile("inputs/day06.txt")
 	task1Result, _ := task1(input)
 	fmt.Println("Day 06 task 1: ", task1Result)
 	task2Result, _ := task2(input)

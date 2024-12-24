@@ -54,10 +54,10 @@ func task1(input string) (int, error) {
 
 	distances := make([]int, listLen)
 	for i := 0; i < listLen; i++ {
-		distances[i] = utils.AbsDiffInt(list1[i], list2[i])
+		distances[i] = utils.AbsDiffNum(list1[i], list2[i])
 	}
 
-	totalDistance := utils.SliceSumInt(distances)
+	totalDistance := utils.SliceSumNum(distances)
 	return totalDistance, nil
 }
 
@@ -84,12 +84,12 @@ func task2(input string) (int, error) {
 		distances[i] = similarity
 	}
 
-	totalDistance := utils.SliceSumInt(distances)
+	totalDistance := utils.SliceSumNum(distances)
 	return totalDistance, nil
 }
 
 func Day01() {
-	input, _ := utils.ReadFile("inputs/day01/input.txt")
+	input, _ := utils.ReadFile("inputs/day01.txt")
 	task1Result, _ := task1(input)
 	fmt.Println("Day 01 task 1: ", task1Result)
 	task2Result, _ := task2(input)

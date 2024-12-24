@@ -6,20 +6,7 @@ import (
 	"github.com/EdwinRy/advent-2024/internal/utils"
 )
 
-type direction int
-
-const (
-	up direction = iota
-	down
-	left
-	right
-	diagonalUpRight
-	diagonalUpLeft
-	diagonalDownRight
-	diagonalDownLeft
-)
-
-var directions = []direction{up, down, left, right, diagonalUpRight, diagonalUpLeft, diagonalDownRight, diagonalDownLeft}
+type direction = utils.Direction
 
 func checkWordInDirection(lines *[][]string, word string, wordIdx int, dir direction, currI int, currJ int) bool {
 
@@ -36,42 +23,42 @@ func checkWordInDirection(lines *[][]string, word string, wordIdx int, dir direc
 	}
 
 	switch dir {
-	case up:
+	case utils.Up:
 		if currI == 0 {
 			return false
 		}
 		return checkWordInDirection(lines, word, wordIdx+1, dir, currI-1, currJ)
-	case down:
+	case utils.Down:
 		if currI == ymax {
 			return false
 		}
 		return checkWordInDirection(lines, word, wordIdx+1, dir, currI+1, currJ)
-	case left:
+	case utils.Left:
 		if currJ == 0 {
 			return false
 		}
 		return checkWordInDirection(lines, word, wordIdx+1, dir, currI, currJ-1)
-	case right:
+	case utils.Right:
 		if currJ == xmax {
 			return false
 		}
 		return checkWordInDirection(lines, word, wordIdx+1, dir, currI, currJ+1)
-	case diagonalUpRight:
+	case utils.DiagonalUpRight:
 		if currI == 0 || currJ == xmax {
 			return false
 		}
 		return checkWordInDirection(lines, word, wordIdx+1, dir, currI-1, currJ+1)
-	case diagonalUpLeft:
+	case utils.DiagonalUpLeft:
 		if currI == 0 || currJ == 0 {
 			return false
 		}
 		return checkWordInDirection(lines, word, wordIdx+1, dir, currI-1, currJ-1)
-	case diagonalDownRight:
+	case utils.DiagonalDownRight:
 		if currI == ymax || currJ == xmax {
 			return false
 		}
 		return checkWordInDirection(lines, word, wordIdx+1, dir, currI+1, currJ+1)
-	case diagonalDownLeft:
+	case utils.DiagonalDownLeft:
 		if currI == ymax || currJ == 0 {
 			return false
 		}
@@ -87,7 +74,7 @@ func task1(input string) (int, error) {
 	total := 0
 	for i, _ := range lines {
 		for j, _ := range lines[i] {
-			for _, dir := range directions {
+			for _, dir := range utils.Directions2d {
 				if checkWordInDirection(&lines, word, 0, dir, i, j) {
 					total++
 				}
@@ -168,7 +155,7 @@ func task2(input string) (int, error) {
 }
 
 func Day04() {
-	input, _ := utils.ReadFile("inputs/day04/input.txt")
+	input, _ := utils.ReadFile("inputs/day04.txt")
 	task1Result, _ := task1(input)
 	fmt.Println("Day 04 task 1: ", task1Result)
 	task2Result, _ := task2(input)
